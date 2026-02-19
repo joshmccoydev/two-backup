@@ -5,6 +5,10 @@
 REPO="${REPO:-two-backup}"
 MESSAGE="${1:-Auto-backup $(date +%Y-%m-%d\ %H:%M)}"
 
+# Backup key config files (they live outside workspace)
+mkdir -p /root/.openclaw/workspace/config-backup
+cp /root/.openclaw/openclaw.json /root/.openclaw/workspace/config-backup/
+
 # Add all changes
 git add -A
 
@@ -18,13 +22,5 @@ fi
 git commit -m "$MESSAGE"
 
 # Push to GitHub
-if git remote | grep -q origin; then
-    git push origin master
-    echo "✓ Backup pushed to GitHub"
-else
-    echo "⚠️  No remote 'origin' configured. Create a GitHub repo first:"
-    echo "   gh repo create two-backup --public --source=. --remote=origin"
-    echo "   Or use your own repo:"
-    echo "   git remote add origin https://github.com/YOUR_USERNAME/two-backup.git"
-    echo "   git push -u origin master"
-fi
+git push origin master
+echo "✓ Backup pushed to GitHub"

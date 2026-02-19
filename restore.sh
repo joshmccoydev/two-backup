@@ -22,5 +22,11 @@ git fetch origin
 git reset --hard origin/master
 git clean -fd
 
+# Restore config files from backup
+if [ -f /root/.openclaw/workspace/config-backup/openclaw.json ]; then
+    cp /root/.openclaw/workspace/config-backup/openclaw.json /root/.openclaw/openclaw.json
+    echo "✓ Config restored"
+fi
+
 echo "✓ Workspace restored from GitHub backup"
 echo "  Restart OpenClaw gateway: systemctl --user restart openclaw-gateway"
